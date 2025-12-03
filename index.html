@@ -2,46 +2,184 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio</title>
+    <meta charset="UTF-8" />
+    <title>Dynamic Color Changer</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #111827;
+            color: #f9fafb;
+        }
+
+        .card {
+            background: #020617;
+            padding: 24px 28px;
+            border-radius: 18px;
+            box-shadow: 0 18px 40px rgba(0, 0, 0, 0.4);
+            width: 320px;
+            text-align: center;
+            border: 1px solid rgba(148, 163, 184, 0.3);
+        }
+
+        h1 {
+            font-size: 1.4rem;
+            margin-bottom: 12px;
+        }
+
+        p {
+            font-size: 0.9rem;
+            margin-bottom: 16px;
+            color: #9ca3af;
+        }
+
+        .color-preview {
+            width: 100%;
+            height: 120px;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            border: 1px solid rgba(148, 163, 184, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 1rem;
+            letter-spacing: 0.04em;
+            background: #1d4ed8;
+            color: #f9fafb;
+        }
+
+        .controls {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .btn {
+            padding: 10px 14px;
+            border-radius: 999px;
+            border: none;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: 500;
+            background: #4f46e5;
+            color: white;
+            transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 18px rgba(79, 70, 229, 0.5);
+            background: #4338ca;
+        }
+
+        .btn:active {
+            transform: translateY(0);
+            box-shadow: none;
+        }
+
+        .color-picker-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            font-size: 0.85rem;
+            color: #e5e7eb;
+            background: rgba(15, 23, 42, 0.8);
+            border-radius: 999px;
+            padding: 6px 10px;
+            border: 1px solid rgba(51, 65, 85, 0.9);
+        }
+
+        .color-picker-wrapper input[type="color"] {
+            border: none;
+            padding: 0;
+            width: 34px;
+            height: 24px;
+            background: transparent;
+            cursor: pointer;
+        }
+
+        .current-hex {
+            font-size: 0.85rem;
+            margin-top: 4px;
+            color: #e5e7eb;
+        }
+    </style>
 </head>
 
 <body>
-    <h1>My name is Sanjana M</h1>
-    <p>Today we are gonna learn about one of the most interesting topics of web development that is HTML and CSS </p>
-    <h2>HTML</h2>
-    <p>HTML stands for HyperText Markup Language. It is the standard language for creating web pages. HTML describes the
-        structure of a web page using markup. HTML elements are represented by tags, such as &lt;h1&gt; for headings,
-        &lt;p&gt; for paragraphs, and &lt;a&gt; for links.</p>
-    <h2>CSS</h2>
-    <p>CSS stands for Cascading Style Sheets. It is used to style and layout web pages. CSS allows you to control the
-        color, font, spacing, and overall appearance of HTML elements. You can apply CSS styles directly within an HTML
-        document or link to an external CSS file.</p>
-    <h2>JavaScript</h2>
-    <p>JavaScript is a programming language that enables you to create dynamic and interactive web pages. It allows you
-        to manipulate HTML elements, handle events, and communicate with web servers. JavaScript can be embedded
-        directly in an HTML document or included as an external file.</p>
-    <h2>Git</h2>
-    <p>Git is a distributed version control system that allows you to track changes to your codebase. It enables you to
-        collaborate with others, manage different versions of your code, and revert to previous states if needed.</p>
-    <h2>GitHub</h2>
-    <p>GitHub is a web-based platform for version control and collaboration. It provides a user-friendly interface for
-        managing Git repositories, hosting code, and collaborating with others. GitHub offers both free and paid plans,
-        with the free plan providing basic features for open-source projects.</p>
-    <h2>Bootstrap</h2>
-    <p>Bootstrap is a free and open-source CSS framework that provides responsive and mobile-first design. It includes
-        pre-built components, such as buttons, forms, and navigation, which can be easily customized using variables and
-        mixins. Bootstrap is compatible with most web browsers and provides a consistent look and feel across different
-        devices.</p>
-    <h2>JavaScript</h2>
-    <p>JavaScript is a programming language that enables you to create dynamic and interactive web pages. It allows you
-        to manipulate HTML elements, handle events, and communicate with web servers. JavaScript can be embedded
-        directly in an HTML document or included as an external file.</p>
+    <div class="card">
+        <h1>Dynamic Color Changer 🎨</h1>
+        <p>Click the button for a random color or choose your own.</p>
 
+        <div class="color-preview" id="colorPreview">
+            #1D4ED8
+        </div>
+        <div class="current-hex" id="currentHex">
+            Current color: #1D4ED8
+        </div>
 
+        <div class="controls">
+            <button class="btn" id="randomBtn">Random Color</button>
 
+            <div class="color-picker-wrapper">
+                <span>Pick color:</span>
+                <input type="color" id="colorPicker" value="#1d4ed8" />
+            </div>
+        </div>
+    </div>
 
+    <script>
+        const colorPreview = document.getElementById("colorPreview");
+        const currentHex = document.getElementById("currentHex");
+        const randomBtn = document.getElementById("randomBtn");
+        const colorPicker = document.getElementById("colorPicker");
+
+        // Helper: generate random hex color
+        function getRandomColor() {
+            const letters = "0123456789ABCDEF";
+            let color = "#";
+            for (let i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
+
+        // Update the preview box and text
+        function applyColor(color) {
+            colorPreview.style.backgroundColor = color;
+            colorPreview.textContent = color.toUpperCase();
+            currentHex.textContent = "Current color: " + color.toUpperCase();
+            colorPicker.value = color;
+            // Also change body background slightly tinted
+            document.body.style.background = `radial-gradient(circle at top, ${color}33, #020617 60%)`;
+        }
+
+        // Random color on button click
+        randomBtn.addEventListener("click", () => {
+            const randomColor = getRandomColor();
+            applyColor(randomColor);
+        });
+
+        // Change color when user picks from color input
+        colorPicker.addEventListener("input", (event) => {
+            applyColor(event.target.value);
+        });
+
+        // Initial set
+        applyColor("#1d4ed8");
+    </script>
 </body>
 
 </html>
