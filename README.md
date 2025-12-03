@@ -1,2 +1,2 @@
 # demorepo
-Prcatice Repo 
+Practice Repo
